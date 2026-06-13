@@ -111,7 +111,7 @@
     },
     "CVE-2026-8582": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -1757,7 +1757,7 @@
     },
     "CVE-2026-8863": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "NTC IT ROSA LLC",
             "product": "RosaLinux",
@@ -3036,7 +3036,7 @@
     },
     "CVE-2026-9971": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -3901,7 +3901,7 @@
     },
     "CVE-2026-8568": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -4161,7 +4161,7 @@
     },
     "CVE-2026-9929": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -5146,7 +5146,7 @@
     },
     "CVE-2024-42010": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "n/a",
             "product": "n/a",
@@ -5196,7 +5196,7 @@
     },
     "CVE-2026-11247": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -6404,7 +6404,7 @@
     },
     "CVE-2026-8586": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -7258,7 +7258,7 @@
     },
     "CVE-2026-9910": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -7830,7 +7830,7 @@
     },
     "CVE-2026-39833": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "golang.org/x/crypto",
             "product": "golang.org/x/crypto/ssh/agent",
@@ -7967,7 +7967,7 @@
     },
     "CVE-2026-8556": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -8202,7 +8202,7 @@
     },
     "CVE-2026-8537": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -8394,7 +8394,7 @@
     },
     "CVE-2023-37580": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "n/a",
             "product": "n/a",
@@ -8545,7 +8545,7 @@
     },
     "CVE-2026-9115": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -9085,7 +9085,7 @@
     },
     "CVE-2026-8583": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -9120,7 +9120,7 @@
     },
     "CVE-2026-11019": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -9137,7 +9137,7 @@
     },
     "CVE-2025-55182": {
         "cvss_score": 10,
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "defaultStatus": "unaffected",
             "product": "react-server-dom-parcel",
@@ -10149,7 +10149,7 @@
     },
     "CVE-2026-11127": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -10166,7 +10166,7 @@
     },
     "CVE-2026-11178": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -10198,7 +10198,7 @@
     },
     "CVE-2026-8517": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -10273,7 +10273,7 @@
     },
     "CVE-2026-9116": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -10485,7 +10485,7 @@
     },
     "CVE-2026-12018": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -12664,7 +12664,7 @@
     },
     "CVE-2026-10010": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -12821,7 +12821,7 @@
     },
     "CVE-2026-9981": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -12890,7 +12890,7 @@
     },
     "CVE-2026-27142": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Go standard library",
             "product": "html/template",
@@ -13008,7 +13008,7 @@
     },
     "CVE-2026-9110": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -14938,7 +14938,7 @@
     },
     "CVE-2025-47907": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Go standard library",
             "product": "database/sql",
@@ -14972,7 +14972,7 @@
     },
     "CVE-2026-8545": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -15650,7 +15650,7 @@
     },
     "CVE-2026-8585": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -16888,7 +16888,7 @@
     },
     "CVE-2026-11291": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -16922,7 +16922,7 @@
     },
     "CVE-2026-8566": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -17721,7 +17721,7 @@
     },
     "CVE-2026-11215": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -18144,7 +18144,7 @@
     },
     "CVE-2025-22870": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "golang.org/x/net",
             "product": "golang.org/x/net/proxy",
@@ -18470,7 +18470,7 @@
     },
     "CVE-2025-61726": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Go standard library",
             "product": "net/url",
@@ -18898,7 +18898,7 @@
     },
     "CVE-2026-8564": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -20425,7 +20425,7 @@
     },
     "CVE-2026-8563": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -20799,7 +20799,7 @@
     },
     "CVE-2026-9975": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -22015,7 +22015,7 @@
     },
     "CVE-2026-8565": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -22111,7 +22111,7 @@
     },
     "CVE-2026-9938": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -25548,7 +25548,7 @@
     },
     "CVE-2026-11226": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -26454,7 +26454,7 @@
     },
     "CVE-2026-12027": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -27952,7 +27952,7 @@
     },
     "CVE-2026-11175": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -28043,7 +28043,7 @@
     },
     "CVE-2026-10011": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -28060,7 +28060,7 @@
     },
     "CVE-2026-8572": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -28864,7 +28864,7 @@
     },
     "CVE-2026-9991": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -31420,7 +31420,7 @@
     },
     "CVE-2026-11167": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -31883,7 +31883,7 @@
     },
     "CVE-2025-61732": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Go toolchain",
             "product": "cmd/cgo",
@@ -32314,7 +32314,7 @@
     },
     "CVE-2026-12031": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -32554,7 +32554,7 @@
     },
     "CVE-2026-11172": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -32639,7 +32639,7 @@
     },
     "CVE-2026-8584": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -33081,7 +33081,7 @@
     },
     "CVE-2026-45602": {
         "cvss_score": 9.1,
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Microsoft",
             "product": "Windows Server 2025 (Server Core installation)",
@@ -33356,7 +33356,7 @@
     },
     "CVE-2026-11148": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -33441,7 +33441,7 @@
     },
     "CVE-2026-11108": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -33855,7 +33855,7 @@
     },
     "CVE-2026-29145": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "defaultStatus": "unaffected",
             "product": "Apache Tomcat Native",
@@ -35631,7 +35631,7 @@
     },
     "CVE-2026-9889": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -35704,7 +35704,7 @@
     },
     "CVE-2026-12032": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -37070,7 +37070,7 @@
     },
     "CVE-2026-12024": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -37138,7 +37138,7 @@
     },
     "CVE-2026-11263": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -37749,7 +37749,7 @@
     },
     "CVE-2026-8547": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -38140,7 +38140,7 @@
     },
     "CVE-2026-9892": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -39521,7 +39521,7 @@
     },
     "CVE-2026-10984": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -39810,7 +39810,7 @@
     },
     "CVE-2023-24531": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Go toolchain",
             "product": "cmd/go",
@@ -41489,7 +41489,7 @@
     },
     "CVE-2026-9989": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -41636,7 +41636,7 @@
     },
     "CVE-2026-25679": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Go standard library",
             "product": "net/url",
@@ -41765,7 +41765,7 @@
     },
     "CVE-2026-9955": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -42641,7 +42641,7 @@
     },
     "CVE-2026-9976": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -43120,7 +43120,7 @@
     },
     "CVE-2025-61731": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Go toolchain",
             "product": "cmd/go",
@@ -43500,7 +43500,7 @@
     },
     "CVE-2026-11295": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -45292,7 +45292,7 @@
     },
     "CVE-2026-9912": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -46470,7 +46470,7 @@
     },
     "CVE-2024-42009": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "n/a",
             "product": "n/a",
@@ -46589,7 +46589,7 @@
     },
     "CVE-2026-11270": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -46732,7 +46732,7 @@
     },
     "CVE-2025-47913": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "golang.org/x/crypto",
             "product": "golang.org/x/crypto/ssh/agent",
@@ -47003,7 +47003,7 @@
     },
     "CVE-2026-11097": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -47283,7 +47283,7 @@
     },
     "CVE-2026-9913": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -48312,7 +48312,7 @@
     },
     "CVE-2026-8576": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -48488,7 +48488,7 @@
     },
     "CVE-2024-42008": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "n/a",
             "product": "n/a",
@@ -48601,7 +48601,7 @@
     },
     "CVE-2026-9918": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -50112,7 +50112,7 @@
     },
     "CVE-2026-8571": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -50269,7 +50269,7 @@
     },
     "CVE-2025-58181": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "golang.org/x/crypto",
             "product": "golang.org/x/crypto/ssh",
@@ -51611,7 +51611,7 @@
     },
     "CVE-2026-11278": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -51663,7 +51663,7 @@
     },
     "CVE-2026-9999": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -51748,7 +51748,7 @@
     },
     "CVE-2025-47914": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "golang.org/x/crypto",
             "product": "golang.org/x/crypto/ssh/agent",
@@ -52108,7 +52108,7 @@
     },
     "CVE-2026-8561": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Google",
             "product": "Chrome",
@@ -52145,7 +52145,7 @@
     },
     "CVE-2025-68121": {
         "cvss_score": "na",
-        "cwe": "Non disponible",
+        "cwe": "na",
         "edition": {
             "vendor": "Go standard library",
             "product": "crypto/tls",
