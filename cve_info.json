@@ -2033,7 +2033,7 @@
         ],
         "description": "PostgreSQL Anonymizer contains a vulnerability that allows a user to gain superuser privileges by creating a table and placing malicious code inside a column identifier. If a superuser calls the k-anonymity function, the malicious code is executed with superuser privileges. The risk is higher with PostgreSQL 14 or with instances upgraded from PostgreSQL 14 or a prior version. With PostgreSQL 15 and later, the creation permission on the public schema is revoked by default and this exploit can only be achieved by a user who was explicitly granted the CREATE TABLE privilege. The problem is resolved in PostgreSQL Anonymizer 3.1.0 and further versions"
     },
-    "CVE-2026-45840": {
+    "CVE-2026-46021": {
         "cvss_score": "na",
         "cwe": "na",
         "products": [
@@ -2840,6 +2840,32 @@
     },
     "CVE-2026-9899": {
         "cvss_score": "na",
+        "cwe": "na",
+        "edition": [
+            [
+                "Linux",
+                "Linux",
+                [
+                    "d1da921452b3ee7e07383c12955ab1c6f3b08752",
+                    "5749077415994eb02d660b2559b9d8278521e73d",
+                    "5749077415994eb02d660b2559b9d8278521e73d",
+                    "5749077415994eb02d660b2559b9d8278521e73d",
+                    "5749077415994eb02d660b2559b9d8278521e73d",
+                    "6.1.57"
+                ]
+            ],
+            [
+                "Linux",
+                "Linux",
+                [
+                    "6.2"
+                ]
+            ]
+        ],
+        "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nmm/page_alloc: prevent pcp corruption with SMP=n\n\nThe kernel test robot has reported:\n\n BUG: spinlock trylock failure on UP on CPU#0, kcompactd0/28\n  lock: 0xffff888807e35ef0, .magic: dead4ead, .owner: kcompactd0/28, .owner_cpu: 0\n CPU: 0 UID: 0 PID: 28 Comm: kcompactd0 Not tainted 6.18.0-rc5-00127-ga06157804399 #1 PREEMPT  8cc09ef94dcec767faa911515ce9e609c45db470\n Call Trace:\n  <IRQ>\n  __dump_stack (lib/dump_stack.c:95)\n  dump_stack_lvl (lib/dump_stack.c:123)\n  dump_stack (lib/dump_stack.c:130)\n  spin_dump (kernel/locking/spinlock_debug.c:71)\n  do_raw_spin_trylock (kernel/locking/spinlock_debug.c:?)\n  _raw_spin_trylock (include/linux/spinlock_api_smp.h:89 kernel/locking/spinlock.c:138)\n  __free_frozen_pages (mm/page_alloc.c:2973)\n  ___free_pages (mm/page_alloc.c:5295)\n  __free_pages (mm/page_alloc.c:5334)\n  tlb_remove_table_rcu (include/linux/mm.h:? include/linux/mm.h:3122 include/asm-generic/tlb.h:220 mm/mmu_gather.c:227 mm/mmu_gather.c:290)\n  ? __cfi_tlb_remove_table_rcu (mm/mmu_gather.c:289)\n  ? rcu_core (kernel/rcu/tree.c:?)\n  rcu_core (include/linux/rcupdate.h:341 kernel/rcu/tree.c:2607 kernel/rcu/tree.c:2861)\n  rcu_core_si (kernel/rcu/tree.c:2879)\n  handle_softirqs (arch/x86/include/asm/jump_label.h:36 include/trace/events/irq.h:142 kernel/softirq.c:623)\n  __irq_exit_rcu (arch/x86/include/asm/jump_label.h:36 kernel/softirq.c:725)\n  irq_exit_rcu (kernel/softirq.c:741)\n  sysvec_apic_timer_interrupt (arch/x86/kernel/apic/apic.c:1052)\n  </IRQ>\n  <TASK>\n RIP: 0010:_raw_spin_unlock_irqrestore (arch/x86/include/asm/preempt.h:95 include/linux/spinlock_api_smp.h:152 kernel/locking/spinlock.c:194)\n  free_pcppages_bulk (mm/page_alloc.c:1494)\n  drain_pages_zone (include/linux/spinlock.h:391 mm/page_alloc.c:2632)\n  __drain_all_pages (mm/page_alloc.c:2731)\n  drain_all_pages (mm/page_alloc.c:2747)\n  kcompactd (mm/compaction.c:3115)\n  kthread (kernel/kthread.c:465)\n  ? __cfi_kcompactd (mm/compaction.c:3166)\n  ? __cfi_kthread (kernel/kthread.c:412)\n  ret_from_fork (arch/x86/kernel/process.c:164)\n  ? __cfi_kthread (kernel/kthread.c:412)\n  ret_from_fork_asm (arch/x86/entry/entry_64.S:255)\n  </TASK>\n\nMatthew has analyzed the report and identified that in drain_page_zone()\nwe are in a section protected by spin_lock(&pcp->lock) and then get an\ninterrupt that attempts spin_trylock() on the same lock.  The code is\ndesigned to work this way without disabling IRQs and occasionally fail the\ntrylock with a fallback.  However, the SMP=n spinlock implementation\nassumes spin_trylock() will always succeed, and thus it's normally a\nno-op.  Here the enabled lock debugging catches the problem, but otherwise\nit could cause a corruption of the pcp structure.\n\nThe problem has been introduced by commit 574907741599 (\"mm/page_alloc:\nleave IRQs enabled for per-cpu page allocations\").  The pcp locking scheme\nrecognizes the need for disabling IRQs to prevent nesting spin_trylock()\nsections on SMP=n, but the need to prevent the nesting in spin_lock() has\nnot been recognized.  Fix it by introducing local wrappers that change the\nspin_lock() to spin_lock_iqsave() with SMP=n and use them in all places\nthat do spin_lock(&pcp->lock).\n\n[vbabka@suse.cz: add pcp_ prefix to the spin_lock_irqsave wrappers, per Steven]"
+    },
+    "CVE-2026-45461": {
+        "cvss_score": 8.4,
         "cwe": "CWE-416",
         "products": [
             {
@@ -4216,8 +4242,8 @@
         ],
         "description": "Integer overflow or wraparound in Windows Win32K - GRFX allows an unauthorized attacker to execute code locally."
     },
-    "CVE-2026-23271": {
-        "cvss_score": 7.8,
+    "CVE-2026-10010": {
+        "cvss_score": "na",
         "cwe": "na",
         "products": [
             {
@@ -4548,7 +4574,7 @@
         ],
         "description": "Improper neutralization of input during web page generation ('cross-site scripting') in Microsoft Office SharePoint allows an authorized attacker to perform spoofing over a network."
     },
-    "CVE-2026-46009": {
+    "CVE-2026-9898": {
         "cvss_score": "na",
         "cwe": "na",
         "products": [
@@ -4603,7 +4629,7 @@
         ],
         "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nipmi: Add limits to event and receive message requests\n\nThe driver would just fetch events and receive messages until the\nBMC said it was done.  To avoid issues with BMCs that never say they are\ndone, add a limit of 10 fetches at a time.\n\nIn addition, an si interface has an attn state it can return from the\nhardware which is supposed to cause a flag fetch to see if the driver\nneeds to fetch events or message or a few other things.  If the attn\nbit gets stuck, it's a similar problem.  So allow messages in between\nflag fetches so the driver itself doesn't get stuck.\n\nThis is a more general fix than the previous fix for the specific bad\nBMC, but should fix the more general issue of a BMC that won't stop\nsaying it has data.\n\nThis has been there from the beginning of the driver.  It's not a bug\nper-se, but it is accounting for bugs in BMCs."
     },
-    "CVE-2026-9963": {
+    "CVE-2026-46146": {
         "cvss_score": "na",
         "cwe": "CWE-457",
         "products": [
@@ -5073,6 +5099,20 @@
     },
     "CVE-2026-8512": {
         "cvss_score": "na",
+        "cwe": "na",
+        "edition": [
+            [
+                "Google",
+                "Chrome",
+                [
+                    "148.0.7778.168"
+                ]
+            ]
+        ],
+        "description": "Insufficient policy enforcement in AI in Google Chrome prior to 148.0.7778.168 allowed a remote attacker who had compromised the renderer process to bypass Site Isolation via a crafted HTML page. (Chromium security severity: Medium)"
+    },
+    "CVE-2026-34335": {
+        "cvss_score": 7,
         "cwe": "CWE-416",
         "products": [
             {
@@ -6319,7 +6359,7 @@
         ],
         "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nbpf: reject direct access to nullable PTR_TO_BUF pointers\n\ncheck_mem_access() matches PTR_TO_BUF via base_type() which strips\nPTR_MAYBE_NULL, allowing direct dereference without a null check.\n\nMap iterator ctx->key and ctx->value are PTR_TO_BUF | PTR_MAYBE_NULL.\nOn stop callbacks these are NULL, causing a kernel NULL dereference.\n\nAdd a type_may_be_null() guard to the PTR_TO_BUF branch, matching the\nexisting PTR_TO_BTF_ID pattern."
     },
-    "CVE-2026-12013": {
+    "CVE-2026-45987": {
         "cvss_score": "na",
         "cwe": "CWE-416",
         "products": [
@@ -6646,6 +6686,20 @@
     },
     "CVE-2026-45987": {
         "cvss_score": "na",
+        "cwe": "CWE-138",
+        "edition": [
+            [
+                "Exim",
+                "Exim",
+                [
+                    "4.96-RC1-11-315206fbf"
+                ]
+            ]
+        ],
+        "description": "Exim Improper Neutralization of Special Elements Remote Code Execution Vulnerability. This vulnerability allows remote attackers to execute arbitrary code on affected installations of Exim. Authentication is not required to exploit this vulnerability.\n\nThe specific flaw exists within the smtp service, which listens on TCP port 25 by default. The issue results from the lack of proper validation of user-supplied data, which can result in a memory corruption condition. An attacker can leverage this vulnerability to execute code in the context of the current process. Was ZDI-CAN-17554."
+    },
+    "CVE-2026-23437": {
+        "cvss_score": 7.8,
         "cwe": "na",
         "products": [
             {
@@ -6778,7 +6832,7 @@
         ],
         "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nerofs: fix unsigned underflow in z_erofs_lz4_handle_overlap()\n\nSome crafted images can have illegal (!partial_decoding &&\nm_llen < m_plen) extents, and the LZ4 inplace decompression path\ncan be wrongly hit, but it cannot handle (outpages < inpages)\nproperly: \"outpages - inpages\" wraps to a large value and\nthe subsequent rq->out[] access reads past the decompressed_pages\narray.\n\nHowever, such crafted cases can correctly result in a corruption\nreport in the normal LZ4 non-inplace path.\n\nLet's add an additional check to fix this for backporting.\n\nReproducible image (base64-encoded gzipped blob):\n\nH4sIAJGR12kCA+3SPUoDQRgG4MkmkkZk8QRbRFIIi9hbpEjrHQI5ghfwCN5BLCzTGtLbBI+g\ndilSJo1CnIm7GEXFxhT6PDDwfrs73/ywIQD/1ePD4r7Ou6ETsrq4mu7XcWfj++Pb58nJU/9i\nPNtbjhan04/9GtX4qVYc814WDqt6FaX5s+ZwXXeq52lndT6IuVvlblytLMvh4Gzwaf90nsvz\n2DF/21+20T/ldgp5s1jXRaN4t/8izsy/OUB6e/Qa79r+JwAAAAAAAL52vQVuGQAAAP6+my1w\nywAAAAAAAADwu14ATsEYtgBQAAA=\n\n$ mount -t erofs -o cache_strategy=disabled foo.erofs /mnt\n$ dd if=/mnt/data of=/dev/null bs=4096 count=1"
     },
-    "CVE-2025-71199": {
+    "CVE-2026-22976": {
         "cvss_score": "na",
         "cwe": "na",
         "products": [
@@ -7978,6 +8032,21 @@
     },
     "CVE-2026-23260": {
         "cvss_score": "na",
+        "cwe": "CWE-476",
+        "edition": [
+            [
+                "OpenSSL",
+                "OpenSSL",
+                [
+                    "4.0.0",
+                    "3.6.0"
+                ]
+            ]
+        ],
+        "description": "Issue summary: When a partial-chain certificate verification is enabled\ntogether with OCSP response checking for the whole chain, a NULL dereference\nwill happen if the verified chain does not have a self-signed trusted anchor,\ncrashing the process.\n\nImpact summary: A NULL pointer dereference can trigger a crash which leads to a\nDenial of Service for an application.\n\nWhen performing OCSP response checking for certificates in the verification\nchain, the code always tries to access the next certificate as the issuer.\nThere is a check for a self-signed certificate. However with the partial\nchain verification enabled when the chain does not have a self-signed trusted\nanchor, the issuer will be NULL for the last certificate in the chain. A NULL\npointer dereference then happens.\n\nThis issue affects only applications which enable both OCSP verification\nof the certificate chain (X509_V_FLAG_OCSP_RESP_CHECK_ALL) and partial\nchain verification (X509_V_FLAG_PARTIAL_CHAIN) in the certificate\nverification. Both flags are disabled by default. For that reason, we have\nassigned Low severity to the issue.\n\nNo FIPS modules are affected by this issue as the affected code is outside\nthe OpenSSL FIPS module boundary."
+    },
+    "CVE-2025-8869": {
+        "cvss_score": 5.9,
         "cwe": "na",
         "products": [
             {
@@ -8745,6 +8814,20 @@
     },
     "CVE-2026-9893": {
         "cvss_score": "na",
+        "cwe": "CWE-787",
+        "edition": [
+            [
+                "Google",
+                "Chrome",
+                [
+                    "148.0.7778.168"
+                ]
+            ]
+        ],
+        "description": "Out of bounds write in Fonts in Google Chrome prior to 148.0.7778.168 allowed a remote attacker to execute arbitrary code inside a sandbox via a crafted HTML page. (Chromium security severity: High)"
+    },
+    "CVE-2026-44801": {
+        "cvss_score": 7.5,
         "cwe": "CWE-416",
         "products": [
             {
@@ -8759,6 +8842,20 @@
     },
     "CVE-2026-31614": {
         "cvss_score": "na",
+        "cwe": "CWE-472",
+        "edition": [
+            [
+                "Google",
+                "Chrome",
+                [
+                    "148.0.7778.216"
+                ]
+            ]
+        ],
+        "description": "Integer overflow in WTF in Google Chrome prior to 148.0.7778.216 allowed a remote attacker to execute arbitrary code inside a sandbox via a crafted HTML page. (Chromium security severity: High)"
+    },
+    "CVE-2026-46119": {
+        "cvss_score": 9.1,
         "cwe": "na",
         "products": [
             {
@@ -10202,6 +10299,20 @@
     },
     "CVE-2026-23080": {
         "cvss_score": "na",
+        "cwe": "CWE-416",
+        "edition": [
+            [
+                "Google",
+                "Chrome",
+                [
+                    "149.0.7827.53"
+                ]
+            ]
+        ],
+        "description": "Use after free in Core in Google Chrome on Android prior to 149.0.7827.53 allowed a remote attacker who had compromised the renderer process to potentially perform a sandbox escape via a crafted HTML page. (Chromium security severity: High)"
+    },
+    "CVE-2026-46112": {
+        "cvss_score": 7.8,
         "cwe": "na",
         "products": [
             {
@@ -10812,6 +10923,27 @@
     },
     "CVE-2026-11172": {
         "cvss_score": "na",
+        "cwe": "CWE-416",
+        "edition": [],
+        "description": "A use-after-free flaw was found in the X.Org X server and Xwayland in miSyncDestroyFence(). A client that sets up multiple fence triggers can trigger a use-after-free function pointer call. An attacker would connect to the X server to set up a fence and await that fence, then a second X connection destroys the fence, causing the use-after-free. This may be used to crash the server, or for privilege escalation if the X server runs as root."
+    },
+    "CVE-2026-42488": {},
+    "CVE-2026-45476": {
+        "cvss_score": 8.2,
+        "cwe": "CWE-416",
+        "edition": [
+            [
+                "Microsoft",
+                "Linux kernel - Microsoft MANA Network Driver",
+                [
+                    "1.0.0"
+                ]
+            ]
+        ],
+        "description": "Use after free in Linux MANA Driver allows an authorized attacker to elevate privileges locally."
+    },
+    "CVE-2026-23001": {
+        "cvss_score": 7.8,
         "cwe": "na",
         "products": [
             {
@@ -10897,6 +11029,37 @@
     },
     "CVE-2026-9934": {
         "cvss_score": "na",
+        "cwe": "CWE-472",
+        "edition": [
+            [
+                "Google",
+                "Chrome",
+                [
+                    "148.0.7778.168"
+                ]
+            ]
+        ],
+        "description": "Integer overflow in ANGLE in Google Chrome on Windows prior to 148.0.7778.168 allowed a remote attacker to perform an out of bounds memory write via a crafted HTML page. (Chromium security severity: Medium)"
+    },
+    "CVE-2026-9741": {
+        "cvss_score": 7.1,
+        "cwe": "CWE-319",
+        "edition": [
+            [
+                "MongoDB",
+                "MongoDB Server",
+                [
+                    "8.3.0",
+                    "8.2.0",
+                    "8.0.0",
+                    "7.0.0"
+                ]
+            ]
+        ],
+        "description": "A bug in query analysis processing of the $vectorSearch aggregation stage for Queryable Encryption (QE) or Client-Side Field Level Encryption (CSFLE)  results in literal values for encrypted fields within the $vectorSearch stage filter expressions to be sent to the server as plaintext instead of ciphertext."
+    },
+    "CVE-2026-45593": {
+        "cvss_score": 7.8,
         "cwe": "CWE-416",
         "products": [
             {
@@ -11629,6 +11792,20 @@
     },
     "CVE-2026-46063": {
         "cvss_score": "na",
+        "cwe": "CWE-125",
+        "edition": [
+            [
+                "Google",
+                "Chrome",
+                [
+                    "148.0.7778.179"
+                ]
+            ]
+        ],
+        "description": "Out of bounds read in GPU in Google Chrome on prior to 148.0.7778.179 allowed a remote attacker to potentially exploit heap corruption via a crafted HTML page. (Chromium security severity: Medium)"
+    },
+    "CVE-2026-46177": {
+        "cvss_score": 7.5,
         "cwe": "na",
         "products": [
             {
@@ -13799,7 +13976,7 @@
         ],
         "description": "Out of bounds write in Codecs in Google Chrome on Mac prior to 148.0.7778.168 allowed a remote attacker to potentially perform a sandbox escape via a crafted video file. (Chromium security severity: Medium)"
     },
-    "CVE-2026-9110": {
+    "CVE-2026-45989": {
         "cvss_score": "na",
         "cwe": "na",
         "products": [
@@ -16300,6 +16477,20 @@
     },
     "CVE-2026-23097": {
         "cvss_score": "na",
+        "cwe": "CWE-787",
+        "edition": [
+            [
+                "Google",
+                "Chrome",
+                [
+                    "148.0.7778.168"
+                ]
+            ]
+        ],
+        "description": "Out of bounds write in Media in Google Chrome prior to 148.0.7778.168 allowed a remote attacker who had compromised the renderer process to potentially perform a sandbox escape via a crafted HTML page. (Chromium security severity: High)"
+    },
+    "CVE-2026-46111": {
+        "cvss_score": 7.8,
         "cwe": "na",
         "products": [
             {
@@ -17356,6 +17547,193 @@
     },
     "CVE-2025-68724": {
         "cvss_score": "na",
+        "cwe": "CWE-552",
+        "edition": [
+            [
+                "Apache Software Foundation",
+                "Apache Struts",
+                [
+                    "2.0.0",
+                    "6.0.0"
+                ]
+            ]
+        ],
+        "description": "An attacker can manipulate file upload params to enable paths traversal and under some circumstances this can lead to uploading a malicious file which can be used to perform Remote Code Execution.\nUsers are recommended to upgrade to versions Struts 2.5.33 or Struts 6.3.0.2 or greater to fix this issue."
+    },
+    "CVE-2026-46152": {
+        "cvss_score": 8.8,
+        "cwe": "na",
+        "edition": [
+            [
+                "Linux",
+                "Linux",
+                [
+                    "3468e1e0c639032a603450f0830ccabfa76f5806",
+                    "3468e1e0c639032a603450f0830ccabfa76f5806",
+                    "3468e1e0c639032a603450f0830ccabfa76f5806",
+                    "3468e1e0c639032a603450f0830ccabfa76f5806",
+                    "3468e1e0c639032a603450f0830ccabfa76f5806"
+                ]
+            ],
+            [
+                "Linux",
+                "Linux",
+                [
+                    "6.4"
+                ]
+            ]
+        ],
+        "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nwifi: mac80211: drop stray 'static' from fast-RX rx_result\n\nieee80211_invoke_fast_rx() is documented as safe for parallel RX, but\nits per-invocation rx_result is declared static. Concurrent callers then\nshare one instance and can overwrite each other's result between\nieee80211_rx_mesh_data() and the switch on res.\n\nThat can make a packet that was queued or consumed by\nieee80211_rx_mesh_data() fall through into ieee80211_rx_8023(), or make\na packet that should continue return as queued.\n\nMake res an automatic variable so each invocation keeps its own result."
+    },
+    "CVE-2026-45642": {
+        "cvss_score": 3.9,
+        "cwe": "CWE-20",
+        "edition": [
+            [
+                "Microsoft",
+                "Windows 10 Version 1607",
+                [
+                    "10.0.14393.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows 10 Version 1809",
+                [
+                    "10.0.17763.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows 10 Version 21H2",
+                [
+                    "10.0.19044.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows 10 Version 22H2",
+                [
+                    "10.0.19045.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows 11 version 23H2",
+                [
+                    "10.0.22631.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows 11 Version 23H2",
+                [
+                    "10.0.22631.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows 11 Version 24H2",
+                [
+                    "10.0.26100.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows 11 Version 25H2",
+                [
+                    "10.0.26200.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows 11 version 26H1",
+                [
+                    "10.0.28000.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows Server 2012",
+                [
+                    "6.2.9200.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows Server 2012 (Server Core installation)",
+                [
+                    "6.2.9200.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows Server 2012 R2",
+                [
+                    "6.3.9600.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows Server 2012 R2 (Server Core installation)",
+                [
+                    "6.3.9600.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows Server 2016",
+                [
+                    "10.0.14393.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows Server 2016 (Server Core installation)",
+                [
+                    "10.0.14393.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows Server 2019",
+                [
+                    "10.0.17763.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows Server 2019 (Server Core installation)",
+                [
+                    "10.0.17763.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows Server 2022",
+                [
+                    "10.0.20348.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows Server 2025",
+                [
+                    "10.0.26100.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows Server 2025 (Server Core installation)",
+                [
+                    "10.0.26100.0"
+                ]
+            ]
+        ],
+        "description": "Improper input validation in Microsoft Azure Attestation service and Device Health Attestation Service allows an authorized attacker to perform spoofing with a physical attack."
+    },
+    "CVE-2026-46190": {
+        "cvss_score": 7.1,
         "cwe": "na",
         "products": [
             {
@@ -17689,7 +18067,7 @@
         ],
         "description": "Out of bounds write in GPU in Google Chrome on Android prior to 149.0.7827.115 allowed a remote attacker who had compromised the renderer process to potentially perform a sandbox escape via a crafted HTML page. (Chromium security severity: High)"
     },
-    "CVE-2025-61726": {
+    "CVE-2026-46072": {
         "cvss_score": "na",
         "cwe": "na",
         "products": [
@@ -18145,6 +18523,20 @@
     },
     "CVE-2026-23142": {
         "cvss_score": "na",
+        "cwe": "CWE-20",
+        "edition": [
+            [
+                "Google",
+                "Chrome",
+                [
+                    "148.0.7778.216"
+                ]
+            ]
+        ],
+        "description": "Insufficient validation of untrusted input in WebShare in Google Chrome on Android prior to 148.0.7778.216 allowed a remote attacker who had compromised the renderer process to potentially perform a sandbox escape via a crafted HTML page. (Chromium security severity: High)"
+    },
+    "CVE-2026-43033": {
+        "cvss_score": 7.8,
         "cwe": "na",
         "products": [
             {
@@ -22957,6 +23349,20 @@
     },
     "CVE-2026-9962": {
         "cvss_score": "na",
+        "cwe": "CWE-20",
+        "edition": [
+            [
+                "Google",
+                "Chrome",
+                [
+                    "149.0.7827.53"
+                ]
+            ]
+        ],
+        "description": "Insufficient validation of untrusted input in Tab Group Sync in Google Chrome on Android prior to 149.0.7827.53 allowed a remote attacker to inject arbitrary scripts or HTML (UXSS) via malicious network traffic. (Chromium security severity: Medium)"
+    },
+    "CVE-2026-45640": {
+        "cvss_score": 7,
         "cwe": "CWE-416",
         "products": [
             {
@@ -23038,7 +23444,7 @@
         ],
         "description": "In the Linux kernel, the following vulnerability has been resolved:\n\ninotify: fix watch count leak when fsnotify_add_inode_mark_locked() fails\n\nWhen fsnotify_add_inode_mark_locked() fails in inotify_new_watch(),\nthe error path calls inotify_remove_from_idr() but does not call\ndec_inotify_watches() to undo the preceding inc_inotify_watches().\nThis leaks a watch count, and repeated failures can exhaust the\nmax_user_watches limit with -ENOSPC even when no watches are active.\n\nPrior to commit 1cce1eea0aff (\"inotify: Convert to using per-namespace\nlimits\"), the watch count was incremented after fsnotify_add_mark_locked()\nsucceeded, so this path was not affected. The conversion moved\ninc_inotify_watches() before the mark insertion without adding the\ncorresponding rollback.\n\nAdd the missing dec_inotify_watches() call in the error path."
     },
-    "CVE-2026-23206": {
+    "CVE-2026-46077": {
         "cvss_score": "na",
         "cwe": "na",
         "products": [
@@ -23411,6 +23817,20 @@
     },
     "CVE-2026-23209": {
         "cvss_score": 7.8,
+        "cwe": "CWE-122",
+        "edition": [
+            [
+                "Microsoft",
+                "Windows 11 version 26H1",
+                [
+                    "10.0.28000.0"
+                ]
+            ]
+        ],
+        "description": "Use after free in Windows DWM Core Library allows an authorized attacker to elevate privileges locally."
+    },
+    "CVE-2026-12027": {
+        "cvss_score": "na",
         "cwe": "na",
         "products": [
             {
@@ -24046,6 +24466,20 @@
     },
     "CVE-2026-9957": {
         "cvss_score": "na",
+        "cwe": "CWE-125",
+        "edition": [
+            [
+                "Google",
+                "Chrome",
+                [
+                    "148.0.7778.216"
+                ]
+            ]
+        ],
+        "description": "Out of bounds read in ANGLE in Google Chrome prior to 148.0.7778.216 allowed a remote attacker to obtain potentially sensitive information from process memory via a crafted HTML page. (Chromium security severity: High)"
+    },
+    "CVE-2026-45657": {
+        "cvss_score": 9.8,
         "cwe": "CWE-416",
         "products": [
             {
@@ -26099,7 +26533,7 @@
         ],
         "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nvsock/virtio: Coalesce only linear skb\n\nvsock/virtio common tries to coalesce buffers in rx queue: if a linear skb\n(with a spare tail room) is followed by a small skb (length limited by\nGOOD_COPY_LEN = 128), an attempt is made to join them.\n\nSince the introduction of MSG_ZEROCOPY support, assumption that a small skb\nwill always be linear is incorrect. In the zerocopy case, data is lost and\nthe linear skb is appended with uninitialized kernel memory.\n\nOf all 3 supported virtio-based transports, only loopback-transport is\naffected. G2H virtio-transport rx queue operates on explicitly linear skbs;\nsee virtio_vsock_alloc_linear_skb() in virtio_vsock_rx_fill(). H2G\nvhost-transport may allocate non-linear skbs, but only for sizes that are\nnot considered for coalescence; see PAGE_ALLOC_COSTLY_ORDER in\nvirtio_vsock_alloc_skb().\n\nEnsure only linear skbs are coalesced. Note that skb_tailroom(last_skb) > 0\nguarantees last_skb is linear."
     },
-    "CVE-2026-12027": {
+    "CVE-2026-46082": {
         "cvss_score": "na",
         "cwe": "na",
         "products": [
@@ -26298,6 +26732,104 @@
     },
     "CVE-2026-31419": {
         "cvss_score": 7.8,
+        "cwe": "CWE-362",
+        "edition": [
+            [
+                "Microsoft",
+                "Windows 10 Version 1809",
+                [
+                    "10.0.17763.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows 10 Version 21H2",
+                [
+                    "10.0.19044.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows 10 Version 22H2",
+                [
+                    "10.0.19045.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows 11 version 23H2",
+                [
+                    "10.0.22631.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows 11 Version 23H2",
+                [
+                    "10.0.22631.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows 11 Version 24H2",
+                [
+                    "10.0.26100.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows 11 Version 25H2",
+                [
+                    "10.0.26200.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows 11 version 26H1",
+                [
+                    "10.0.28000.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows Server 2019",
+                [
+                    "10.0.17763.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows Server 2019 (Server Core installation)",
+                [
+                    "10.0.17763.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows Server 2022",
+                [
+                    "10.0.20348.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows Server 2025",
+                [
+                    "10.0.26100.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows Server 2025 (Server Core installation)",
+                [
+                    "10.0.26100.0"
+                ]
+            ]
+        ],
+        "description": "Concurrent execution using shared resource with improper synchronization ('race condition') in Windows Push Notifications allows an authorized attacker to elevate privileges locally."
+    },
+    "CVE-2026-45842": {
+        "cvss_score": "na",
         "cwe": "na",
         "products": [
             {
@@ -28120,7 +28652,7 @@
         ],
         "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nnet/mlx5e: Fix crash on profile change rollback failure\n\nmlx5e_netdev_change_profile can fail to attach a new profile and can\nfail to rollback to old profile, in such case, we could end up with a\ndangling netdev with a fully reset netdev_priv. A retry to change\nprofile, e.g. another attempt to call mlx5e_netdev_change_profile via\nswitchdev mode change, will crash trying to access the now NULL\npriv->mdev.\n\nThis fix allows mlx5e_netdev_change_profile() to handle previous\nfailures and an empty priv, by not assuming priv is valid.\n\nPass netdev and mdev to all flows requiring\nmlx5e_netdev_change_profile() and avoid passing priv.\nIn mlx5e_netdev_change_profile() check if current priv is valid, and if\nnot, just attach the new profile without trying to access the old one.\n\nThis fixes the following oops, when enabling switchdev mode for the 2nd\ntime after first time failure:\n\n ## Enabling switchdev mode first time:\n\nmlx5_core 0012:03:00.1: E-Switch: Supported tc chains and prios offload\nworkqueue: Failed to create a rescuer kthread for wq \"mlx5e\": -EINTR\nmlx5_core 0012:03:00.1: mlx5e_netdev_init_profile:6214:(pid 37199): mlx5e_priv_init failed, err=-12\nmlx5_core 0012:03:00.1 gpu3rdma1: mlx5e_netdev_change_profile: new profile init failed, -12\nworkqueue: Failed to create a rescuer kthread for wq \"mlx5e\": -EINTR\nmlx5_core 0012:03:00.1: mlx5e_netdev_init_profile:6214:(pid 37199): mlx5e_priv_init failed, err=-12\nmlx5_core 0012:03:00.1 gpu3rdma1: mlx5e_netdev_change_profile: failed to rollback to orig profile, -12\n                                                                         ^^^^^^^^\nmlx5_core 0000:00:03.0: E-Switch: Disable: mode(LEGACY), nvfs(0), necvfs(0), active vports(0)\n\n ## retry: Enabling switchdev mode 2nd time:\n\nmlx5_core 0000:00:03.0: E-Switch: Supported tc chains and prios offload\nBUG: kernel NULL pointer dereference, address: 0000000000000038\n #PF: supervisor read access in kernel mode\n #PF: error_code(0x0000) - not-present page\nPGD 0 P4D 0\nOops: Oops: 0000 [#1] SMP NOPTI\nCPU: 13 UID: 0 PID: 520 Comm: devlink Not tainted 6.18.0-rc4+ #91 PREEMPT(voluntary)\nHardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-2.fc40 04/01/2014\nRIP: 0010:mlx5e_detach_netdev+0x3c/0x90\nCode: 50 00 00 f0 80 4f 78 02 48 8b bf e8 07 00 00 48 85 ff 74 16 48 8b 73 78 48 d1 ee 83 e6 01 83 f6 01 40 0f b6 f6 e8 c4 42 00 00 <48> 8b 45 38 48 85 c0 74 08 48 89 df e8 cc 47 40 1e 48 8b bb f0 07\nRSP: 0018:ffffc90000673890 EFLAGS: 00010246\nRAX: 0000000000000000 RBX: ffff8881036a89c0 RCX: 0000000000000000\nRDX: ffff888113f63800 RSI: ffffffff822fe720 RDI: 0000000000000000\nRBP: 0000000000000000 R08: 0000000000002dcd R09: 0000000000000000\nR10: ffffc900006738e8 R11: 00000000ffffffff R12: 0000000000000000\nR13: 0000000000000000 R14: ffff8881036a89c0 R15: 0000000000000000\nFS:  00007fdfb8384740(0000) GS:ffff88856a9d6000(0000) knlGS:0000000000000000\nCS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033\nCR2: 0000000000000038 CR3: 0000000112ae0005 CR4: 0000000000370ef0\nCall Trace:\n <TASK>\n mlx5e_netdev_change_profile+0x45/0xb0\n mlx5e_vport_rep_load+0x27b/0x2d0\n mlx5_esw_offloads_rep_load+0x72/0xf0\n esw_offloads_enable+0x5d0/0x970\n mlx5_eswitch_enable_locked+0x349/0x430\n ? is_mp_supported+0x57/0xb0\n mlx5_devlink_eswitch_mode_set+0x26b/0x430\n devlink_nl_eswitch_set_doit+0x6f/0xf0\n genl_family_rcv_msg_doit+0xe8/0x140\n genl_rcv_msg+0x18b/0x290\n ? __pfx_devlink_nl_pre_doit+0x10/0x10\n ? __pfx_devlink_nl_eswitch_set_doit+0x10/0x10\n ? __pfx_devlink_nl_post_doit+0x10/0x10\n ? __pfx_genl_rcv_msg+0x10/0x10\n netlink_rcv_skb+0x52/0x100\n genl_rcv+0x28/0x40\n netlink_unicast+0x282/0x3e0\n ? __alloc_skb+0xd6/0x190\n netlink_sendmsg+0x1f7/0x430\n __sys_sendto+0x213/0x220\n ? __sys_recvmsg+0x6a/0xd0\n __x64_sys_sendto+0x24/0x30\n do_syscall_64+0x50/0x1f0\n entry_SYSCALL_64_after_hwframe+0x76/0x7e\nRIP: 0033:0x7fdfb8495047"
     },
-    "CVE-2026-23359": {
+    "CVE-2026-9917": {
         "cvss_score": "na",
         "cwe": "na",
         "products": [
@@ -30559,7 +31091,7 @@
         ],
         "description": "In the Linux kernel, the following vulnerability has been resolved:\n\nxfrm: Fix work re-schedule after cancel in xfrm_nat_keepalive_net_fini()\n\nAfter cancel_delayed_work_sync() is called from\nxfrm_nat_keepalive_net_fini(), xfrm_state_fini() flushes remaining\nstates via __xfrm_state_delete(), which calls\nxfrm_nat_keepalive_state_updated() to re-schedule nat_keepalive_work.\n\nThe following is a simple race scenario:\n\n           cpu0                             cpu1\n\ncleanup_net() [Round 1]\n  ops_undo_list()\n    xfrm_net_exit()\n      xfrm_nat_keepalive_net_fini()\n        cancel_delayed_work_sync(nat_keepalive_work);\n      xfrm_state_fini()\n        xfrm_state_flush()\n          xfrm_state_delete(x)\n            __xfrm_state_delete(x)\n              xfrm_nat_keepalive_state_updated(x)\n                schedule_delayed_work(nat_keepalive_work);\n  rcu_barrier();\n  net_complete_free();\n  net_passive_dec(net);\n    llist_add(&net->defer_free_list, &defer_free_list);\n\ncleanup_net() [Round 2]\n  rcu_barrier();\n  net_complete_free()\n    kmem_cache_free(net_cachep, net);\n                                     nat_keepalive_work()\n                                       // on freed net\n\nTo prevent this, cancel_delayed_work_sync() is replaced with\ndisable_delayed_work_sync()."
     },
-    "CVE-2026-23099": {
+    "CVE-2026-9889": {
         "cvss_score": "na",
         "cwe": "na",
         "products": [
@@ -32107,6 +32639,24 @@
     },
     "CVE-2026-23202": {
         "cvss_score": "na",
+        "cwe": "CWE-325",
+        "edition": [
+            [
+                "OpenSSL",
+                "OpenSSL",
+                [
+                    "4.0.0",
+                    "3.6.0",
+                    "3.5.0",
+                    "3.4.0",
+                    "3.0.0"
+                ]
+            ]
+        ],
+        "description": "Issue summary: When EVP_PKEY_derive_set_peer() is called with a DHX (X9.42)\npeer key, the peer key is not properly checked for the subgroup membership.\n\nImpact summary: A malicious peer which presents an X9.42 key carrying the\nvictim's p and g parameters, a forged q = r (a small prime factor of the\ncofactor (p−1)/q_local), and a public value Y of order r can recover the\nvictim's private key after a small number of key exchange attempts.\n\nWhen EVP_PKEY_derive_set_peer() is called with a DHX (X9.42) peer key, the\nsubgroup membership check Y^q ≡ 1 (mod p) is performed using the peer's\nown q parameter, not the local key's q. The peer's domain parameters are\nthen matched against the domain parameters of the private key, but the value\nof q is not compared.\n\nA malicious peer who presents an X9.42 key carrying the victim's p, g,\na forged q = r (a small prime factor of the cofactor), and a public\nvalue Y of order r passes all checks. The shared secret then takes only\nr distinct values, leaking priv mod r. Repeating for each small-prime\nfactor of the cofactor and combining via CRT recovers the full private\nkey (Lim–Lee / small-subgroup-confinement attack).\n\nThe realistic attack surface is narrow: principally CMP deployments with\nlong-lived RA/CA DHX keys and bespoke enterprise or government applications\nusing X9.42 DHX static keys with interactive protocols and therefore this\nissue was assigned Low severity.\n\nThe FIPS modules in 4.0, 3.6, 3.5, 3.4, and 3.0 are affected by this\nissue."
+    },
+    "CVE-2026-46185": {
+        "cvss_score": 9.1,
         "cwe": "na",
         "products": [
             {
@@ -32814,8 +33364,22 @@
         ],
         "description": "SAP MDG (Review Match Groups Application) does not perform the necessary authorization checks for authenticated users. This could allow a low-privileged user to perform actions that would otherwise be restricted, resulting in escalation of privileges. This has a low impact on integrity, while confidentiality and availability are not impacted."
     },
-    "CVE-2026-46068": {
+    "CVE-2026-23087": {
         "cvss_score": "na",
+        "cwe": "CWE-472",
+        "edition": [
+            [
+                "Google",
+                "Chrome",
+                [
+                    "148.0.7778.168"
+                ]
+            ]
+        ],
+        "description": "Integer overflow in ANGLE in Google Chrome on Windows prior to 148.0.7778.168 allowed a remote attacker to perform an out of bounds memory write via a crafted HTML page. (Chromium security severity: Critical)"
+    },
+    "CVE-2026-43009": {
+        "cvss_score": 7.8,
         "cwe": "na",
         "products": [
             {
@@ -33132,6 +33696,167 @@
     },
     "CVE-2026-23083": {
         "cvss_score": "na",
+        "cwe": "CWE-472",
+        "edition": [
+            [
+                "Google",
+                "Chrome",
+                [
+                    "148.0.7778.168"
+                ]
+            ]
+        ],
+        "description": "Integer overflow in XML in Google Chrome prior to 148.0.7778.168 allowed a remote attacker to execute arbitrary code inside a sandbox via a crafted HTML page. (Chromium security severity: High)"
+    },
+    "CVE-2026-47291": {
+        "cvss_score": 9.8,
+        "cwe": "CWE-190",
+        "edition": [
+            [
+                "Microsoft",
+                "Windows 10 Version 1607",
+                [
+                    "10.0.14393.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows 10 Version 1809",
+                [
+                    "10.0.17763.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows 10 Version 21H2",
+                [
+                    "10.0.19044.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows 10 Version 22H2",
+                [
+                    "10.0.19045.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows 11 version 23H2",
+                [
+                    "10.0.22631.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows 11 Version 23H2",
+                [
+                    "10.0.22631.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows 11 Version 24H2",
+                [
+                    "10.0.26100.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows 11 Version 25H2",
+                [
+                    "10.0.26200.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows 11 version 26H1",
+                [
+                    "10.0.28000.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows Server 2012",
+                [
+                    "6.2.9200.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows Server 2012 (Server Core installation)",
+                [
+                    "6.2.9200.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows Server 2012 R2",
+                [
+                    "6.3.9600.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows Server 2012 R2 (Server Core installation)",
+                [
+                    "6.3.9600.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows Server 2016",
+                [
+                    "10.0.14393.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows Server 2016 (Server Core installation)",
+                [
+                    "10.0.14393.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows Server 2019",
+                [
+                    "10.0.17763.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows Server 2019 (Server Core installation)",
+                [
+                    "10.0.17763.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows Server 2022",
+                [
+                    "10.0.20348.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows Server 2025",
+                [
+                    "10.0.26100.0"
+                ]
+            ],
+            [
+                "Microsoft",
+                "Windows Server 2025 (Server Core installation)",
+                [
+                    "10.0.26100.0"
+                ]
+            ]
+        ],
+        "description": "Integer overflow or wraparound in Windows HTTP.sys allows an unauthorized attacker to execute code over a network."
+    },
+    "CVE-2026-31758": {
+        "cvss_score": 7.8,
         "cwe": "na",
         "products": [
             {
@@ -33674,6 +34399,20 @@
     },
     "CVE-2026-23257": {
         "cvss_score": "na",
+        "cwe": "CWE-472",
+        "edition": [
+            [
+                "Google",
+                "Chrome",
+                [
+                    "148.0.7778.216"
+                ]
+            ]
+        ],
+        "description": "Integer overflow in ANGLE in Google Chrome prior to 148.0.7778.216 allowed a remote attacker to leak cross-origin data via a crafted HTML page. (Chromium security severity: Critical)"
+    },
+    "CVE-2026-23198": {
+        "cvss_score": 7.8,
         "cwe": "na",
         "products": [
             {
@@ -33942,6 +34681,20 @@
     },
     "CVE-2026-23038": {
         "cvss_score": "na",
+        "cwe": "CWE-122",
+        "edition": [
+            [
+                "Google",
+                "Chrome",
+                [
+                    "148.0.7778.168"
+                ]
+            ]
+        ],
+        "description": "Heap buffer overflow in ANGLE in Google Chrome on Mac prior to 148.0.7778.168 allowed a remote attacker to potentially perform a sandbox escape via a crafted HTML page. (Chromium security severity: High)"
+    },
+    "CVE-2026-46212": {
+        "cvss_score": 8.8,
         "cwe": "na",
         "products": [
             {
@@ -37934,8 +38687,8 @@
         ],
         "description": "CUPS is a standards-based, open-source printing system, and `libppd` can be used for legacy PPD file support. The `libppd` function `ppdCreatePPDFromIPP2` does not sanitize IPP attributes when creating the PPD buffer. When used in combination with other functions such as `cfGetPrinterAttributes5`, can result in user controlled input and ultimately code execution via Foomatic. This vulnerability can be part of an exploit chain leading to remote code execution (RCE), as described in CVE-2024-47176."
     },
-    "CVE-2026-44819": {
-        "cvss_score": 7.8,
+    "CVE-2026-8531": {
+        "cvss_score": "na",
         "cwe": "CWE-122",
         "products": [
             {
@@ -40336,7 +41089,7 @@
         ],
         "description": "Issue summary: The CMS_decrypt and PKCS7_decrypt functions are vulnerable to\nBleichenbacher-style attack when an attacker is able to provide the CMS or\nS/MIME messages and observe the error code and/or decryption output.\n\nImpact summary: The Bleichenbacher-style attack allows an attacker to use the\nvictim's vulnerable application as a way to decrypt or sign messages with the\nvictim's private RSA key.\n\nThe attack is possible in 2 variants.\n\n1. The decryption API (CMS_decrypt(), PKCS7_decrypt()) is used without\nproviding the recipient certificate. In this case OpenSSL iterates over every\nKeyTransRecipientInfo (KTRI) without stopping at the first success.\n\nAn attacker who authors a message with two KTRI entries — the first one\nwrapping a real CEK under the victim's public key, the second with an\narbitrary probe ciphertext — obtains opportunity to iterate the 2nd KTRI to\nget a valid PKCS#1 v1.5 padding if the error code of the application is\navailable.\n\nThat is a Bleichenbacher oracle (Bleichenbacher, CRYPTO '98): an\nadaptive-chosen-ciphertext side channel from which the attacker decrypts any\nRSA ciphertext to the victim's key or forges any PKCS#1 v1.5 signature under\nit.\n\n2. When the decryption API (CMS_decrypt(), PKCS7_decrypt()) is provided with\nthe recipient certificate, and the recipient is not found, a random\nkey is substituted.\n\nAn attacker who authors a message and is able to compare both error code and\nthe result of the decryption, can mount a Bleichenbacher oracle.\n\nWe are not aware of any applications that provide a remote attacker\nan opportunity to mount an attack described in these scenarios. We consider\nthe existence of such application very unlikely, and for this reason this\nCVE has been evaluated as Low severity.\n\nTo avoid these attacks, when RSA PKCS#1 v1.5 Key Transport is in use, the\ninvoked EVP_PKEY_decrypt() will use the implicit rejection mechanism described\nin draft-irtf-cfrg-rsa-guidance. In previous OpenSSL releases the implicit\nrejection was explicitly disabled.\n\nThe implicit rejection mechanism always returns a plaintext value,\nthe symmetric key. This result is deterministic for the ciphertext and the\nprivate key.  The length of the decryption result can happen to match the\nlength of the key of the symmetric cipher that was used for the content\nencryption. When a certificate is not provided, the last RecipientInfo\nproducing a key that looks valid will be used. It may cause getting garbage\ncontent on decryption. As a proper way to deal with this a recipient\ncertificate has to be provided to identify the particular RecipientInfo for\ndecryption.\n\nThe FIPS modules in 4.0, 3.6, 3.5, and 3.4 are not affected by this issue, as\nCMS and S/MIME processing happens outside the OpenSSL FIPS module boundary."
     },
-    "CVE-2026-8516": {
+    "CVE-2026-46159": {
         "cvss_score": "na",
         "cwe": "CWE-20",
         "products": [
@@ -40446,7 +41199,7 @@
         ],
         "description": "Out of bounds write in WebAudio in Google Chrome prior to 148.0.7778.168 allowed a remote attacker to execute arbitrary code inside a sandbox via a crafted HTML page. (Chromium security severity: High)"
     },
-    "CVE-2026-48574": {
+    "CVE-2026-44802": {
         "cvss_score": 7.8,
         "cwe": "CWE-122",
         "products": [
@@ -41497,6 +42250,20 @@
     },
     "CVE-2026-46077": {
         "cvss_score": "na",
+        "cwe": "CWE-122",
+        "edition": [
+            [
+                "Google",
+                "Chrome",
+                [
+                    "148.0.7778.168"
+                ]
+            ]
+        ],
+        "description": "Heap buffer overflow in SwiftShader in Google Chrome on Mac and iOS prior to 148.0.7778.168 allowed a remote attacker to perform an out of bounds memory read via a crafted HTML page. (Chromium security severity: Medium)"
+    },
+    "CVE-2026-43284": {
+        "cvss_score": 8.8,
         "cwe": "na",
         "products": [
             {
@@ -41604,6 +42371,41 @@
     },
     "CVE-2026-46163": {
         "cvss_score": "na",
+        "cwe": "CWE-416",
+        "edition": [
+            [
+                "Google",
+                "Chrome",
+                [
+                    "148.0.7778.216"
+                ]
+            ]
+        ],
+        "description": "Use after free in GFX in Google Chrome on Mac prior to 148.0.7778.216 allowed a remote attacker who had compromised the renderer process to potentially perform a sandbox escape via a crafted HTML page. (Chromium security severity: High)"
+    },
+    "CVE-2026-41717": {
+        "cvss_score": 8.1,
+        "cwe": "CWE-917",
+        "edition": [
+            [
+                "Spring",
+                "Spring Data MongoDB",
+                [
+                    "5.0.0",
+                    "4.5.0",
+                    "4.4.0",
+                    "4.3.0",
+                    "4.2.0",
+                    "4.1.0",
+                    "4.0.0",
+                    "3.4.0"
+                ]
+            ]
+        ],
+        "description": "Spring Data MongoDB contains a SpEL (Spring Expression Language) expression injection vulnerability. The issue occurs during parameter binding when a user-defined repository query method is annotated with @Query and utilizes a capture-all placeholder.\n\nAffected versions:\nSpring Data MongoDB 5.0.0 through 5.0.5; 4.5.0 through 4.5.11; 4.4.0 through 4.4.14; 4.3.0 through 4.3.16; 4.2.0 through 4.2.15; 4.1.0 through 4.1.14; 4.0.0 through 4.0.15; 3.4.0 through 3.4.19."
+    },
+    "CVE-2026-46114": {
+        "cvss_score": 7.5,
         "cwe": "na",
         "products": [
             {
