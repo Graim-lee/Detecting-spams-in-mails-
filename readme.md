@@ -20,3 +20,35 @@ De plus, contrairement au NIST qui offre des fonctionnalités avancées, telles 
 - Modèles Machine learning
 - Générer des alertes personnalisées pour les produits affectés et envoyer des
 notifications par email.
+
+# Pour exécuter les scripts, vous devez disposer d'un environnement Python (3.9+) et installer les dépendances nécessaires :
+
+# Installation des bibliothèques via pip
+pip install feedparser requests pandas numpy matplotlib
+Note : Assurez-vous d'avoir accès à Internet pour la récupération des flux RSS et les appels aux API externes.
+
+# Configuration (Gestion des secrets)
+Le projet utilise un fichier .env pour la gestion sécurisée des identifiants (ex: configuration SMTP pour les alertes email).
+
+Créez un fichier nommé .env à la racine de votre dossier.
+
+Ajoutez vos variables de configuration sur le modèle suivant :
+email_sender=votre_email@gmail.com
+email_password=votre_mot_de_passe_application
+Attention : Ce fichier .env ne doit jamais être inclus dans votre dépôt public ou partagé.
+
+# Comment lancer l'application
+Extraction et enrichissement : Exécutez le script principal (ou les cellules correspondantes dans le notebook si vous utilisez une version scriptée).
+
+Consolidation : Le script génère automatiquement un fichier cve_consolidated.csv contenant l'ensemble des données traitées.
+
+Analyse : Lancez les scripts de visualisation pour générer les graphiques de performance et de distribution des vulnérabilités.
+
+# Points de vigilance
+Temps d'exécution : L'étape d'enrichissement des données (appel aux API MITRE/EPSS) peut être longue (environ 15 minutes). Un fichier cve_info.json est utilisé comme cache pour éviter de refaire ces appels à chaque exécution.
+
+Limitation d'API : Si vous effectuez de nombreux tests, respectez un délai (time.sleep) entre les requêtes pour ne pas être bloqué par les serveurs externes.
+
+Anonymat : Avant de soumettre votre travail, assurez-vous que les fichiers de configuration ou logs générés ne contiennent aucune information personnelle.
+
+Format des données : Le script effectue un nettoyage des données (replace('na', np.nan)). Vérifiez toujours la cohérence du DataFrame final avant l'étape de Machine Learning.
