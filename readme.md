@@ -49,6 +49,4 @@ Temps d'exécution : L'étape d'enrichissement des données (appel aux API MITRE
 
 Limitation d'API : Si vous effectuez de nombreux tests, respectez un délai (time.sleep) entre les requêtes pour ne pas être bloqué par les serveurs externes.
 
-Anonymat : Avant de soumettre votre travail, assurez-vous que les fichiers de configuration ou logs générés ne contiennent aucune information personnelle.
-
 Format des données : Le script effectue un nettoyage des données (replace('na', np.nan)). Vérifiez toujours la cohérence du DataFrame final avant l'étape de Machine Learning.
