@@ -43,6 +43,7 @@
 
 # %%
 import feedparser
+from sklearn.metrics.pairwise import cosine_similarity
 
 # Récupération des alertes (menaces immédiates, majeures et hautement critiques)
 
@@ -1002,7 +1003,7 @@ print("Total precision : ", precision)
 
 # %%
 # téléchargement pour SMOTE
-%pip install imbalanced-learn
+# %pip install imbalanced-learn
 
 # %%
 from sklearn.model_selection import train_test_split
@@ -1189,7 +1190,7 @@ else:
 # Ne pas oublier de mettre le `.env` dans le `.gitignore`
 
 # %%
-%pip install python-dotenv
+# %pip install python-dotenv
 
 # %%
 import smtplib
